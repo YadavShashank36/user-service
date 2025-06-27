@@ -1,4 +1,4 @@
-package com.example.user_service;
+package com.example.user_service.service;
 
 import java.util.Optional;
 

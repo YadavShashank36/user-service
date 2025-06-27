@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.user_service.UserService;
 import com.example.user_service.errorhandling.UserNotFoundException;
 import com.example.user_service.model.LoginRequest;
 import com.example.user_service.model.User;
+import com.example.user_service.service.UserService;
 
 public class UserController {
 	
