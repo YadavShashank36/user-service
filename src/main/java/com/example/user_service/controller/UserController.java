@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.user_service.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.user_service.errorhandling.UserNotFoundException;
@@ -22,12 +24,14 @@ import com.example.user_service.service.UserService;
 @RestController
 public class UserController {
 
+	private final RestTemplate restTemplate;
 	private UserService userService;
 
 	@Autowired
-	public UserController(UserService userService)
+	public UserController(UserService userService,RestTemplate restTemplate)
 	{
 		this.userService=userService;
+		this.restTemplate=restTemplate ;
 	}
 
 	@GetMapping("/")
