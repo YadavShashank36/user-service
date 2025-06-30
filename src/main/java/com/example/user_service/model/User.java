@@ -17,18 +17,27 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String name;
-	@Column(unique= true)
+	@Column(unique= true,nullable = false)
 	private String email;
 	@Column(unique=true, nullable=false)
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private String role;
 	private String address;
 	
+	public User(String name, String email, String password, String address)
+	{
+		this.name=name;
+		this.email=email;
+		this.password=password;
+		this.address=address;
+	}
+	public User() {}
 	
 	
+	   
 }
