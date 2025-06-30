@@ -28,7 +28,7 @@ public class UserPrincipal implements UserDetails {
     public String getPassword() {
         return user.getPassword();
     }
-
+// adedd nothing
     @Override
     public String getUsername() {
         return user.getEmail();
