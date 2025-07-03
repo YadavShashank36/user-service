@@ -22,11 +22,11 @@ public class User {
 	private String name;
 	@Column(unique= true,nullable = false)
 	private String email;
-	@Column(unique=true, nullable=false)
+	@Column( nullable=false)
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
-	private String role;
+	private Role role;
 	private String address;
 	
 	public User(String name, String email, String password, String address)
@@ -35,8 +35,10 @@ public class User {
 		this.email=email;
 		this.password=password;
 		this.address=address;
+		this.role=Role.CUSTOMER;
 	}
 	public User() {}
+
 	
 	
 	   

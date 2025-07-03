@@ -37,8 +37,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
  http.csrf(customizer->customizer.disable());
  http.authorizeHttpRequests(request->request
-         .requestMatchers("register", "login").permitAll()
-         .requestMatchers("/products/add", "/products/update", "/products/increaseStock", "/products/decreaseStock")
+         .requestMatchers("/register", "/login").permitAll()
+         .requestMatchers("/users", "/check")
          .hasRole("ADMIN")
          .anyRequest().authenticated());
 

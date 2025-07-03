@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,39 +19,31 @@ import java.util.function.Function;
 
 @Service
 public class JWTService {
-    private String secretKey;
-
-    public JWTService()
-    {
-        try {
-            KeyGenerator keyGen= KeyGenerator.getInstance("HmacSha256");
-            SecretKey sk=keyGen.generateKey();
-            secretKey=Base64.getEncoder().encodeToString(sk.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String generateToken(String email)
-    {
-        Map<String, Objects> claims=new HashMap<>();
+	@Value("${jwt.secret}")
+	private String secretKey;
+	
+	public JWTService() {}
+  
+    public String generateToken(String email) {
+        Date now = new Date();
+        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3); // 3 hours
 
         return Jwts.builder()
                 .claims()
                 .subject(email)
-                .issuedAt(new Date(System.currentTimeMillis()+60*60*3))
+                .issuedAt(now)
+                .expiration(expiration)
                 .and()
                 .signWith(getKey())
                 .compact();
     }
-    private SecretKey getKey(){
 
-        byte[] keyBytes= Decoders.BASE64.decode(secretKey);
+    private SecretKey getKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(Base64.getEncoder().encodeToString(secretKey.getBytes()));
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractUserEmail(String token) {
-        // extract the username from jwt token
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -65,6 +59,7 @@ public class JWTService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUserEmail(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -77,4 +72,5 @@ public class JWTService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+
 }

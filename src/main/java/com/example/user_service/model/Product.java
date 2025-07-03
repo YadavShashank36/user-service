@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+
 public class Product {
     private Long id;
     private String name;
